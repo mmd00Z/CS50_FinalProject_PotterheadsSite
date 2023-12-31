@@ -2,6 +2,8 @@
 
 ## Video Demo:
 **https://youtu.be/IOOdtO6yHuY**
+![image](https://github.com/mmd00Z/CS50_FinalProject_PotterheadsSite/assets/94078617/112b1c65-ca32-4c39-a975-2de3c994cbe5)
+
 
 ## Overview
 This project is a website that introduces the Wizarding World to users and introduces them to Harry Potter books and movies. Also, Potterhead fans (Harry Potter fans) can buy their magic items from its store to start their magical adventure and step into the fantasy world and challenge technology with their imagination.
