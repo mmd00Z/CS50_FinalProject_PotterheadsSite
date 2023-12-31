@@ -1,7 +1,8 @@
 # **HarryPotter Fan & Shopping Site**
 
 ## Video Demo:
-**https://youtu.be/IOOdtO6yHuY** <br>
+**https://youtu.be/IOOdtO6yHuY**
+
 ![image](https://github.com/mmd00Z/CS50_FinalProject_PotterheadsSite/assets/94078617/112b1c65-ca32-4c39-a975-2de3c994cbe5)
 
 
