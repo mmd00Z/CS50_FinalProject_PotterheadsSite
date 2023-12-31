@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="{{url_for('static', filename='css/cart.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='js/cart.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+Cart
+{% endblock %}
+
+{% block main %}
+<div class="cart-panel">
+    <div class="cart-view-container">
+        <div><span class="color-fg">Product Prices <span>({{cart['total_count']}})</span>: </span><span style="text-decoration: line-through; color: #ccc;">{{cart['product_prices']}}<span class="dollar">$</span></span></div>
+        <div><span class="color-fg">Your Profit: </span><span>{{cart['product_prices'] - cart['total_amount']}}</span><span class="dollar">$</span></div>
+        <div><span class="color-fg">Total Amount: </span><span id="total-amount">{{cart['total_amount']}}<span class="dollar">$</span></span></div>
+        <a href="/checkout/address" id="btn-view-cart"{% if not cart['cart_products'] %} class="disable" disabled{% endif %}>Place Order</a>
+    </div>
+    <div class="cart-container">
+        <span id="empty-cart" style="margin-inline: auto;{% if not cart['cart_products'] %} display: block;{% else %} display: none;{% endif %}">Your cart is empty! <a href="/shop" class="color-fg hover-lfg">Go to shop</a></span>
+        {% for product in cart['cart_products'] %}
+        <div class="cart-product">
+            <div>
+                <a href="{{generate_product_url(product['id'], product['name'])}}">
+                    <img src="{{url_for('static', filename='imgs_products/'+product['image']+'.png')}}"
+                        alt="">
+                </a>
+                <div class="plus-minus-product-container">
+                    <button class="minus-product" data-id="{{product['id']}}"
+                        data-features="{{json.dumps(product['features'])}}">
+                        <i class="{{'bi bi-dash' if product['count'] > 1 else 'bi bi-trash'}}"></i>
+                    </button>
+                    <span>{{product['count']}}</span>
+                    <button class="plus-product" data-id="{{ product['id'] }}"
+                        data-features="{{ json.dumps(product['features']) }}" {% if
+                        product['count']==product['stock'] %}disabled{% endif %}>
+                        <i class="bi bi-plus" {% if product['count']==product['stock']
+                            %}style="color: #aaa;" {% endif %}></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cart-product-info">
+                <span class="name">{{product['name']}}</span>
+                {% for option, value in product['features'].items() %}
+                <span><span class="color-fg">{{option}}: </span>{{value}}</span>
+                {% endfor %}
+                <div class="price-container" style="margin-top: auto;">
+                    <span class="current-price">{{product['current_price']}}<span
+                            class="dollar">$</span></span>
+                    <div class="discount-price{{' hide' if product['discount'] == ''}}">
+                        <span class="orginal-price">{{product['price']}}<span class="dollar">$</span></span>
+                        <span class="discount">-{{product['discount']}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

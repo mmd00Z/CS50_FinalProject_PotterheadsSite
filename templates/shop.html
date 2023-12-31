@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<script src="https://kit.fontawesome.com/405b4073fe.js" crossorigin="anonymous"></script>
+<link href="../static/css/shop.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='/js/shop.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+Shop
+{% endblock %}
+
+{% block main %}
+<header class="shop-header">
+    <div class="slideshow-container">
+        <a class="slideshow-item">
+            <img class="slide-img" src="../static/img/header-shop-books.png" alt="">
+        </a>
+        <a class="slideshow-item">
+            <img class="slide-img" src="../static/img/header-shop-wands.png" alt="">
+        </a>
+        <a class="slideshow-item">
+            <img class="slide-img" src="../static/img/header-shop-ticket.png" alt="">
+        </a>
+    </div>
+    <button id="prev"><i class="bi bi-chevron-left"></i></button>
+    <button id="next"><i class="bi bi-chevron-right"></i></button>
+
+    <div class="dot-container">
+        <button class="dot active"></button>
+        <button class="dot"></button>
+        <button class="dot"></button>
+    </div>
+</header>
+
+<div class="categories">
+    <a href="#" class="categories-item">
+        <i class='fas fa-tshirt font-icon-padding'></i>
+        <span class="category-label">Clothes</span>
+    </a href="#">
+    <a href="#" class="categories-item">
+        <i class="bi bi-magic"></i>
+        <span class="category-label">Magic Stuff</span>
+    </a href="#">
+    <a href="#" class="categories-item">
+        <i class="bi bi-book"></i>
+        <span class="category-label">Books</span>
+    </a href="#">
+    <a href="#" class="categories-item">
+        <i class="fa-solid fa-mug-saucer font-icon-padding"></i>
+        <span class="category-label">Mugs</span>
+    </a href="#">
+    <a href="#" class="categories-item">
+        <i class="bi bi-sticky"></i>
+        <span class="category-label">Stickers</span>
+    </a href="#">
+    <a href="#" class="categories-item">
+        <i class="bi bi-image"></i>
+        <span class="category-label">Decorative</span>
+    </a href="#">
+</div>
+
+<div class="product-container">
+    <div class="side-bar">
+        <label class="custom-checkbox margin-l-20">
+            <input type="checkbox" name="available"
+                id="is-used-map">
+            <span class="checkmark"></span>
+            Available
+        </label>
+        <label class="custom-checkbox margin-l-20">
+            <input type="checkbox" name="discounted"
+                id="is-used-map">
+            <span class="checkmark"></span>
+            Discounted
+        </label>
+        <label class="custom-checkbox margin-l-20">
+            <input type="checkbox" checked="checked" name="immediate-delivery"
+                id="is-used-map">
+            <span class="checkmark"></span>
+            Immediate delivery
+        </label>
+    </div>
+    <div class="content">
+        <!-- <a href="#" class="product-item">
+            <div class="img-container">
+                <img src="https://www.reuters.com/resizer/SR53q2_gr22DnOsShAiV4kw-gfI=/1920x1920/smart/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/GLJBLETNQJPJJITGRKQSN5DOYM.jpg" alt="" class="product-img">
+            </div>
+            <span class="name">name</span>
+            <div class="buy-item-container">
+                <div class="price-container">
+                    <span class="current-price">1000<span class="dollar">$</span></span>
+                    <div class="discount-price">
+                        <span class="orginal-price">1200<span class="dollar">$</span></span>
+                        <span class="discount">25%</span>
+                    </div>
+                </div>
+                <button class="btn-buy">Buy</button>
+            </div>
+        </a>  -->
+    </div>
+</div>
+{% endblock %}

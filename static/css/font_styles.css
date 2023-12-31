@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Harry Hotter';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/HARRYP__.TTF') format('truetype')
+        , url('../fonts/HARRP___.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'WizardWorld';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/WizardWorldSimplified.ttf');
+}

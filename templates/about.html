@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="{{url_for('static', filename='css/about.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='js/about.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+About Us
+{% endblock %}
+
+{% block main %}
+<div class="our-team-container">
+    <h2>Our Team</h2>
+    <div class="content">
+        <div class="member">
+            <img src="static/img/me.png" alt="">
+            <div>
+                <span class="name">Me</span>
+                <p class="desc">Programer, Web developer, Teacher & Potter Potterhead 9¾</p>
+            </div>
+        </div>
+        <div class="member">
+            <img src="static/img/laptop.png" alt="">
+            <div>
+                <span class="name">My Laptop</span>
+                <p class="desc">Acer Nitro AN515</p>
+            </div>
+        </div>
+        <div class="member">
+            <img src="static/img/gpt.png" alt="">
+            <div>
+                <span class="name">GPT 3.5</span>
+                <p class="desc">Generative Pre-training Transformer</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

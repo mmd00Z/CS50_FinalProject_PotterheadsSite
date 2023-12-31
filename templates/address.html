@@ -1,0 +1,94 @@
+{% extends "layout.html" %} {% block link %}
+<link href="{{url_for('static', filename='css/address.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+{% endblock %} {% block script %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="{{url_for('static', filename='js/address.js')}}"></script>
+{% endblock %}
+
+{% block title %} Address {% endblock %} {% block main %}
+
+<div class="title-container">
+    <span class="fs2em fw600">Your Addresses</span>
+    <button id="btn-show-add-box" class="color-fg hover-lfg">Add Location<i
+            class="bi bi-geo-alt-fill color-fg hover-lfg"></i></button>
+</div>
+
+<hr style="margin-block: 10px;">
+
+<div class="address-list-container">
+    {% if not addresses %}
+    <span>You have not entered an address yet, click on Add Location</span> {%
+    endif %}
+    {% for i in range(addresses|length) %}
+    <div class="address-container">
+        <div class="address-info">
+            <span class="address-text"><i class="bi bi-geo-alt"></i>
+                {{addresses[i]['address']}}</span>
+            <div>
+                <i class="bi bi-person"></i>
+                <span>{{addresses[i]['first_name']}}</span>
+                <span>{{addresses[i]['last_name']}}</span>
+            </div>
+            <span><i class="bi bi-flag"></i> {{addresses[i]['country']}}</span>
+            <span><i class="bi bi-pin-map"></i> {{addresses[i]['city']}}</span>
+            <span><i class="bi bi-mailbox"></i> {{addresses[i]['postal_code']}}</span>
+            <span><i class="bi bi-phone"></i> {{addresses[i]['phone_number']}}</span>
+        </div>
+        <div class="flex">
+            {% set loc = addresses[i]['location'] %}
+            <div class="location" data-lat={{loc[ 'lat' ]}} data-lng={{loc['lng']}}></div>
+            <div class="controll-btn-container">
+                <button class="btn-show-cotroll" data-id={{i}}><i
+                        class="bi bi-three-dots-vertical"></i></button>
+                <div class="ed-btn-container" id="ed-btn-container-{{i}}">
+                    <button id="delete-address-{{i}}"><i class="bi bi-trash"></i></button>
+                    <button id="edit-address-{{i}}" data-prev-address="{{ json.dumps(addresses[i]) }}">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+<div class="add-address-container">
+    <div id="map">
+        <div class="disable-overlay"></div>
+    </div>
+    <button id="close"><i class="bi bi-x"></i></button>
+
+    <label class="custom-checkbox margin-l-20">
+        <input type="checkbox" checked="checked" name="is_used_map"
+            id="is-used-map">
+        <span class="checkmark"></span>
+        Use location data
+    </label>
+    <form id="address-form">
+        <div><span>First Name:</span><input type="text" id="first_name"
+                name="first_name" required></div>
+
+        <div><span>Last Name:</span><input type="text" id="last_name"
+                name="last_name" required></div>
+
+        <div><span>Country:</span><input type="text" id="country" name="country"
+                required></div>
+
+        <div><span>City:</span><input type="text" id="city" name="city" required></div>
+
+        <div class="span2"><span>Address:</span><input type="text" id="address"
+                name="address" required></div>
+
+        <div><span>Postal Code:</span><input type="text" id="postal_code"
+                name="postal_code" required></div>
+
+        <div><span>Phone Number:</span><input type="tel" id="phone_number"
+                name="phone_number" required></div>
+
+        <button id="btn-add-adress" type="submit">Save Address</button>
+    </form>
+</div>
+
+{% endblock %}

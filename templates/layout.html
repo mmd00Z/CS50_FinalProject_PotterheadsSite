@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+        <script crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+        <link href="{{url_for('static', filename='css/layout.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename='css/font_styles.css')}}" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="/static/img/final_favicon.png">
+        <!-- <link href="https://fonts.cdnfonts.com/css/harry-potter" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/wizard-world" rel="stylesheet"> -->
+
+        {% block link %}{% endblock %}
+
+        <title>{% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+        <nav class="nav overlay">
+            <button id="toggle-mobile">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="logo" href="/">
+                <img style="height: 40px;" src="{{url_for('static', filename='/img/final_favicon.png')}}" alt="">
+            </a>
+            <ul class="nav-links">
+                <li><a href="http://127.0.0.1:5000/">Home</a></li>
+                <li><a href="http://127.0.0.1:5000/shop">Shop</a></li>
+                <li><a href="http://127.0.0.1:5000/books">Book</a></li>
+                <li><a href="http://127.0.0.1:5000/movies">Movies</a></li>
+                <li><a href="http://127.0.0.1:5000/about">About</a></li>
+            </ul>
+
+            {% if show_search %}
+            <div class="search-container">
+                <input type="text" id="header-search" placeholder="Search Product">
+                <button id="btn-header-search"><i class="bi bi-search"></i></button>
+            </div>
+            {% endif %}
+
+            {% if showLogin %}
+            <a class="sign-up-in" href="http://127.0.0.1:5000/signup?next={{next}}">SingUp</a>
+            <a class="sign-up-in" href="http://127.0.0.1:5000/login?next={{next}}">LogIn</a>
+            {% endif %}
+            {% if showProfile %}
+            <div class="dropdown">
+                <button class="dropdown-btn">
+                    <span class="user-name"><i class="bi bi-chevron-down"></i> {{header_name}}</span>
+                    <img src="/{{header_profile_image_path}}" class="profile-image-small" alt="Profile Image">
+                </button>
+                <div class="dropdown-content">
+                    <a href="{{profile_path}}" id="user-account">My Account</a>
+                    <a href="http://127.0.0.1:5000/logout" id="logout">Log Out</a>
+                </div>
+            </div>
+            {% if is_in_cart %}
+            <a href="/cart" id="btn-cart">
+                <span id="total-count">{{cart['total_count']}}</span>
+                <i class="bi bi-cart4"></i>
+            </a>
+            {% endif %}
+            {% if show_cart %}
+            <button id="btn-cart">
+                <span id="total-count">{{cart['total_count']}}</span>
+                <i class="bi bi-cart4"></i>
+            </button>
+            <div class="cart-panel">
+                <span id="empty-cart" style="margin-inline: auto;{% if not cart['cart_products'] %} display: block;{% else %} display: none;{% endif %}">Your cart is empty! <a href="/shop" class="color-fg hover-lfg">Go to shop</a></span>
+                <div class="cart-container">
+                    {% for product in cart['cart_products'] %}
+                    <div class="cart-product">
+                        <div>
+                            <a href="{{generate_product_url(product['id'], product['name'])}}">
+                                <img src="{{url_for('static', filename='imgs_products/'+product['image']+'.png')}}"
+                                    alt="">
+                            </a>
+                            <div class="plus-minus-product-container">
+                                <button class="minus-product" data-id="{{product['id']}}"
+                                    data-features="{{json.dumps(product['features'])}}">
+                                    <i class="{{'bi bi-dash' if product['count'] > 1 else 'bi bi-trash'}}"></i>
+                                </button>
+                                <span>{{product['count']}}</span>
+                                <button class="plus-product" data-id="{{ product['id'] }}"
+                                    data-features="{{ json.dumps(product['features']) }}" {% if
+                                    product['count']==product['stock'] %}disabled{% endif %}>
+                                    <i class="bi bi-plus" {% if product['count']==product['stock']
+                                        %}style="color: #aaa;" {% endif %}></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cart-product-info">
+                            <span class="name">{{product['name']}}</span>
+                            {% for option, value in product['features'].items() %}
+                            <span><span class="color-fg">{{option}}: </span>{{value}}</span>
+                            {% endfor %}
+                            <div class="price-container" style="margin-top: auto;">
+                                <span class="current-price">{{product['current_price']}}<span
+                                        class="dollar">$</span></span>
+                                <div class="discount-price{{' hide' if product['discount'] == ''}}">
+                                    <span class="orginal-price">{{product['price']}}<span class="dollar">$</span></span>
+                                    <span class="discount">-{{product['discount']}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <div class="cart-view-container">
+                    <span><span class="color-fg">Total Amount: </span><span id="total-amount">{{cart['total_amount']}}<span class="dollar">$</span></span></span>
+                    <a href="/checkout/cart" id="btn-view-cart"{% if not cart['cart_products'] %} class="disable" disabled{% endif %}>View Cart</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </nav>
+
+        <main class="{{style_class}}">
+            {% block main %}{% endblock %}
+        </main>
+
+        {% if show_footer %}
+        <footer>
+            <div>
+                <a href="https://www.wizardingworld.com/">
+                    See wizardingworld
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-magic" viewBox="0 0 16 16">
+                        <path
+                            d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z" />
+                    </svg>
+                </a>
+                <p>Created by © MMD</p>
+            </div>
+
+            <div class="social-networks">
+                <a href="https://github.com/mmd00Z"><i class="bi bi-github"></i></a>
+
+                <a href="#"><i class="bi bi-telegram"></i></a>
+
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+
+                <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+        </footer>
+        {% endif %}
+
+        <div id="snackbar"></div>
+
+        <script src="{{url_for('static', filename='js/script.js')}}"></script>
+        {% block script %}{% endblock %}
+    </body>
+
+</html>

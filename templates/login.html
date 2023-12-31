@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="static/css/sign.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+LogIn
+{% endblock %}
+
+{% block main %}
+<div class="center-flex">
+    <div class="sign-panel login">
+        <h2 class="login-title">LogIn</h2>
+
+        <form action="/login?next={{next}}" method="post">
+            <input type="text" name="emailname" placeholder="Username or Email">
+
+            <input type="password" name="password" placeholder="Password">
+
+            <button class="btn btn-primary" type="submit">LogIn</button>
+
+            <span>
+                <p>Not yet a member? <a href="/signup?next={{next}}">Sign Up</a></p>
+            </span>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="static/css/sign.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+EmployeeLogIn
+{% endblock %}
+
+{% block main %}
+<div class="center-flex">
+    <div class="sign-panel">
+        <h2>Employee LogIn</h2>
+
+        <form action="/employee-login" method="post">
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <button class="btn btn-primary" type="submit">LogIn</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

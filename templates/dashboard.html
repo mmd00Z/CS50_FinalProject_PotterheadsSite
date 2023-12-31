@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="../static/css/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='/js/dashboard.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+{{username}} ({{name}})
+{% endblock %}
+
+{% block main %}
+<div class="profile-overview">
+    <div class="profile-ontainer">
+        <img src="{{profile_image_path}}" alt="Profile Image" id="profile-image">
+        <button id="add-profile" data-hover="Change Avatar">
+            <i class="bi bi-camera"></i>
+        </button>
+    </div>
+    <div class="overview-info">
+        <span class="name">{{name}}</span>
+        <span class="username suitable-color">@{{username}}</span>
+        <p id="bio">{{bio}}</p>
+    </div>
+</div>
+<div id="bio-container">
+</div>
+<div class="magical-info">
+    <button id="house">
+        {% if house is not none %}
+        <img src="{{ url_for('static', filename='img/house' + house + '.png') }}" class="house-logo">
+        <i style="display: none" class="bi bi-plus-square-dotted"></i>
+        {% else %}
+        <i class="bi bi-plus-square-dotted"></i>
+        {% endif %}
+        <span class="suitable-color">House</span>
+    </button>
+    <button id="patronus">
+        {% if patronus is not none %}
+        <img src="{{ url_for('static', filename='img/animal' + patronus + '.png') }}" class="house-logo">
+        <i style="display: none" class="bi bi-plus-square-dotted"></i>
+        {% else %}
+        <i class="bi bi-plus-square-dotted"></i>
+        {% endif %}
+        <span class="suitable-color">Patronus</span>
+    </button>
+    <button id="wand">
+        {% if wand is not none %}
+        <img src="{{ url_for('static', filename='img/wand' + wand + '.svg') }}" class="house-logo">
+        <i style="display: none" class="bi bi-plus-square-dotted"></i>
+        {% else %}
+        <i class="bi bi-plus-square-dotted"></i>
+        {% endif %}
+        <span class="suitable-color">Wand</span>
+    </button>
+</div>
+<div class="profile-options">
+    <a>
+        <i class="bi bi-cart-check"></i>
+        <span>Purchases</span>
+    </a>
+    <a href="/my-address">
+        <i class="bi bi-journal-text"></i>
+        <span>Addresses</span>
+    </a>
+    <a>
+        <i class="bi bi-heart"></i>
+        <span>Favourite</span>
+    </a>
+    <a>
+        <i class="bi bi-chat-square-text"></i>
+        <span>Comments</span>
+    </a>
+</div>
+
+<h3 class="info-title">My Information</h3>
+<div class="info-panel">
+    <button id="btn-edit"><i class="bi bi-pencil-square"></i></button>
+    <div class="info-contianer">
+        {% for info in infos.keys() %}
+        <div class="info-item">
+            <label>{{info}}</label>
+            <span class="info-value">{{infos[info]}}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="info-control">
+        <span id="error-msg">
+            <i class="bi bi-exclamation-triangle"></i>
+            error massege
+        </span>
+        <button id="btn-info-cancel">Cancel</button>
+        <button id="btn-info-ok">OK</button>
+    </div>
+</div>
+
+<div id="selector">
+    <div class="selector-header">
+        <h3 id="select-title">Title</h3>
+        <button id="btn-close-selector"><i class="bi bi-x"></i></button>
+    </div>
+    <div id="selector-container">
+    </div>
+    <div class="select-control">
+        <div class="left">
+            <button id="btn-remove">Remove</button>
+        </div>
+        <div class="right">
+            <button id="cancel">Cancel</button>
+            <button id="ok">OK</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

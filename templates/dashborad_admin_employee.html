@@ -1,0 +1,211 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="../static/css/dashboard_admin_employee.css" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Lato:900,400' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='/js/dashboard_admin_employee.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+{{infos['Username']}} ({{infos['Name']}})
+{% endblock %}
+
+{% block main %}
+<div class="tab">
+	<button class="tablinks active" onclick="openTab(event, 'profile')">
+		<i class="bi bi-person-square"></i>
+		<span class="tab-text">Profile</span>
+	</button>
+	<button id="btnProductTab" class="tablinks" onclick="openTab(event, 'products')">
+		<i class="bi bi-box-seam"></i>
+		<span class="tab-text">Products</span>
+	</button>
+	<button class="tablinks" onclick="openTab(event, 'comments')">
+		<i class="bi bi-chat-square-text"></i>
+		<span class="tab-text">Comments</span>
+	</button>
+	<button class="tablinks" onclick="openTab(event, 'users')">
+		<i class="bi bi-people"></i>
+		<span class="tab-text">Users</span>
+	</button>
+</div>
+
+<div id="profile" class="tabcontent">
+	<h3 class="title">My Information</h3>
+	<div class="info-panel">
+		<button id="btn-edit"><i class="bi bi-pencil-square"></i></button>
+		<div class="info-contianer">
+			{% for info in infos.keys() %}
+			<div class="info-item">
+				<label>{{info}}:</label>
+				<span class="info-value">{{infos[info]}}</span>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="info-control">
+			<span id="error-msg">
+				<i class="bi bi-exclamation-triangle"></i>
+				error massege
+			</span>
+			<button id="btn-info-cancel" class="btn-submit">Cancel</button>
+			<button id="btn-info-ok" class="btn-submit">OK</button>
+		</div>
+	</div>
+</div>
+
+<div id="products" class="tabcontent">
+	<h3 class="title">Manage Products</h3>
+	<div class="control-bar">
+		<div class="search-bar">
+			<input type="text" id="query" class="search-input info-value" placeholder="Search product name or ID">
+			<button id="btn-search-product" class="btn-search"><i class="bi bi-search"></i></button>
+		</div>
+		<div class="add-edit-delete-bar">
+			<button id="btn-add-goods" class="btn-contoll"><i class="bi bi-plus-square"></i></button>
+			<button id="btn-edit-goods" class="btn-contoll"><i class="bi bi-pencil-square"></i></button>
+			<button id="btn-delete-goods" class="btn-contoll"><i class="bi bi-trash"></i></button>
+		</div>
+	</div>
+
+	<div id="wait-container">
+		<div class="hourglass"></div>
+		<span id="wait-msg">Please wait!</span>
+	</div>
+
+	<div class="search-result flex-column gap-10">
+
+	</div>
+
+	<div class="product-panel">
+		<div class="upload-image-panel">
+			<button id="drop-zone">
+				<input type="file" class="file-input" id="fileInput" accept="image/*" multiple>
+				<i class="bi bi-cloud-arrow-up"></i>
+				<span>Drag your image here or click to browse</span>
+			</button>
+			<div id="selected-file-panel">
+			</div>
+		</div>
+		<div class="product-item">
+			<label for="product-id">ID: </label>
+			<input type="text" name="id" id="product-id" class="product-value" readonly>
+		</div>
+		<div class="product-item">
+			<label for="product-name">Name: </label>
+			<input type="text" name="name" id="product-name" class="product-value">
+		</div>
+		<div class="product-item">
+			<label for="price">Price: </label>
+			<input type="number" name="price" id="price" min="0" class="product-value">
+		</div>
+		<div class="product-item">
+			<label for="discount">Discount: </label>
+			<input type="text" name="discount" id="discount" placeholder="10% or 10$" class="product-value">
+		</div>
+		<div class="product-item">
+			<label for="stock">Stock: </label>
+			<input type="number" name="stock" id="stock" placeholder="Stock of product" class="product-value">
+		</div>
+		<div class="product-item">
+			<label for="categories">Category: </label>
+			<input type="text" name="categories" id="categories" class="product-value">
+		</div>
+		<div class="product-item overview">
+			<label for="overview">Overview: </label>
+			<textarea name="overview" id="overview" placeholder="Give a brief description about the product" class="product-value"></textarea>
+		</div>
+		<div class="product-item description">
+			<label for="description">Description: </label>
+			<textarea name="description" id="description" placeholder="Explain about this product ..." class="product-value"></textarea>
+		</div>
+		<div class="product-item details">
+			<label for="details">Details: </label>
+			<textarea name="details" id="details" placeholder="Write product details in JSON format" class="product-value"></textarea>
+		</div>
+		<div class="product-item features">
+			<label for="features">Features: </label>
+			<textarea name="features" id="features" placeholder="Write product features in JSON format to select by user" class="product-value"></textarea>
+		</div>
+		<div class="product-item tags">
+			<label for="tags">Tags: </label>
+			<textarea name="tags" id="tags" placeholder="Write product tags in CSV format" class="product-value"></textarea>
+		</div>
+
+		<div class="product-control">
+			<span id="product-error-msg">
+				<i class="bi bi-exclamation-triangle"></i>
+				error massege
+			</span>
+			<button id="btn-product-cancel" class="btn-submit">Cancel</button>
+			<button id="btn-product-ok" class="btn-submit">OK</button>
+		</div>
+	</div>
+</div>
+
+<div id="comments" class="tabcontent">
+	<h3>Tokyo</h3>
+	<p>Tokyo is the capital of Japan.</p>
+</div>
+
+<div id="users" class="tabcontent">
+	<h3 class="title">Manage Products</h3>
+	<div class="control-bar">
+		<div class="search-bar">
+			<input type="text" id="query" class="search-input info-value">
+			<button id="btn-search-good" class="btn-search"><i class="bi bi-search"></i></button>
+		</div>
+		<div class="add-edit-delete-bar">
+			<button id="btn-add-good" class="btn-contoll"><i class="bi bi-plus-square"></i></button>
+			<button id="btn-edit-good" class="btn-contoll"><i class="bi bi-pencil-square"></i></button>
+			<button id="btn-delete-good" class="btn-contoll"><i class="bi bi-trash"></i></button>
+		</div>
+	</div>
+</div>
+
+<div id="alert-container">
+	<button><i class="bi bi-x"></i></button>
+	<div id="alert-content">
+		<i></i>
+		<div id="alert-msg-container">
+			<span id="alert-title">Success</span>
+			<span id="alert-msg">Your changes has been saved</span>
+		</div>
+	</div>
+	<div id="alert-progress"></div>
+</div>
+
+<!-- profile info
+edit info
+manage good {
+add
+search
+edit
+delete
+}
+comments {
+answer
+accept
+}
+manage users {
+add
+search
+edit
+delete
+}
+// for admin
+manage employees {
+add
+search
+edit
+delete
+}
+manage admin {
+add
+search
+edit
+delete
+} -->
+{% endblock %}

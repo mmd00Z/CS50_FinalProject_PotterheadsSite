@@ -1,0 +1,292 @@
+main {
+    padding: 80px 20px 30px 20px;
+    min-height: calc(100% - 200px);
+    max-width: 1200px;
+    margin: auto;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#btn-show-add-box,
+#btn-add-adress {
+    border: solid 3px var(--foreground-color-);
+    border-radius: 10px;
+    padding: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#btn-show-add-box:hover {
+    box-shadow: 0px 0px 5px 0px var(--foreground-color-);
+}
+
+.fs2em {
+    font-size: 2em;
+}
+
+.address-text {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #fff;
+}
+
+.fw600 {
+    font-weight: 600;
+}
+
+.address-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.address-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding-inline: 5px;
+}
+
+.address-info {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.address-container i {
+    font-size: 20px;
+    color: var(--foreground-color-);
+}
+
+.location {
+    background-color: var(--foreground-color-);
+    height: 200px;
+    width: 300px;
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.controll-btn-container,
+.ed-btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    min-width: 36px;
+}
+
+.ed-btn-container {
+    display: none;
+}
+
+.custom-icon {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-address-container {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(100% - 100px);
+    width: calc(100% - 40px);
+    max-width: 900px;
+    margin-inline: auto;
+    overflow: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+    top: 60px;
+    background-color: var(--lighter-bg-color-);
+    border-radius: 10px;
+    border: solid 2px var(--foreground-color-);
+    padding-bottom: 10px;
+}
+
+.add-address-container>* {
+    margin-block: 10px;
+}
+
+.margin-l-20 {
+    margin-left: 20px;
+}
+
+.disable-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(100, 80, 100, .6);
+    z-index: 999 !important;
+    display: none;
+}
+
+#address-form input {
+    background-color: transparent;
+    border: none;
+    border-block-end: solid 1px var(--foreground-color-);
+    outline: none;
+    color: #fff;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    margin-top: -5px;
+}
+
+#address-form input:focus {
+    border-block-end: solid 3px var(--foreground-color-);
+}
+
+#address-form {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 2fr));
+    margin: 20px;
+    margin-top: 0px;
+}
+
+#address-form div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#address-form div input {
+    flex-grow: 1;
+}
+
+#address-form div span {
+    min-width: 5em;
+}
+
+.span2 {
+    grid-column: 2 span;
+}
+
+#btn-add-adress {
+    max-width: 150px;
+    justify-content: center;
+}
+
+#btn-add-adress:hover {
+    background-color: var(--foreground-color-);
+    color: var(--lighter-bg-color-);
+    transition-duration: .2s;
+}
+
+#close {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: var(--lighter-bg-color-);
+    border-radius: 10px;
+    font-size: 28px;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#close i {
+    color: var(--foreground-color-);
+}
+
+#close:hover i {
+    color: var(--lighter-foreground-color-);
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+    margin: 0px;
+}
+
+#map a,
+.location a {
+    display: none;
+}
+
+
+/* ---------------- */
+
+.custom-checkbox {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    /* Space for the custom checkbox */
+    /* Space between checkboxes */
+    cursor: pointer;
+}
+
+
+/* Hide the default checkbox */
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+/* Define the appearance of the custom checkbox */
+
+.checkmark {
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: var(--lighter-bg-color-);
+    /* Color of the checkbox */
+    border: 2px solid var(--foreground-color-);
+    /* Border color */
+}
+
+
+/* When the checkbox is checked, change its background color */
+
+.custom-checkbox input:checked+.checkmark {
+    background-color: var(--foreground-color-);
+    /* Color when checked */
+}
+
+
+/* Create a checkmark (symbol inside the checkbox) */
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+/* Show the checkmark when the checkbox is checked */
+
+.custom-checkbox input:checked+.checkmark:after {
+    display: block;
+}
+
+
+/* Style the checkmark using a pseudo-element (in this case, a unicode checkmark) */
+
+.custom-checkbox .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid var(--lighter-bg-color-);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}

@@ -1,0 +1,54 @@
+main {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+h2 {
+    margin: 0px;
+}
+
+.our-team-container {
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.our-team-container .content {
+    display: flex;
+    gap: 30px;
+}
+
+.member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: var(--lighter-bg-color-);
+}
+
+.member img {
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 300px;
+    width: 350px;
+}
+
+.member div {
+    padding: 15px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.member div .name {
+    font-size: 1.2em;
+    font-weight: 500;
+}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="static/css/books_movies.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js" integrity="sha512-r2yd2GP87iHAsf2K+ARvu01VtR7Bs04la0geDLbFlB/38AruUbA5qfmtXwXx6FZBQGJRogiPtEqtfk/fnQfaYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../static/js/books_movies.js"></script>
+{% endblock %}
+
+{% block title %} Movies {% endblock %}
+
+{% block main %}
+<header class="header movies-header">
+    <div class="header-box">
+        <h1 class="page-title">Movies</h1>
+        <p>J.K. Rowling’s beloved Harry Potter novels were brought to life on screen in eight blockbuster films and went on to inspire the Fantastic Beasts film series, taking us into a new era of the Wizarding World.
+        </p>
+    </div>
+</header>
+
+<section class="first">
+    <h2 class="section-title">Harry Potter</h2>
+
+    <div class="content">
+        {% for i in range(movies|length) %}
+        <div class="item image-container">
+            <img src="static/img/mv{{i+1}}.png" alt="{{movies[i]}}" crossorigin="anonymous">
+            <h3>{{movies[i]}}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

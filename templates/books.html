@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<link href="static/css/books_movies.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.4.0/color-thief.min.js" integrity="sha512-r2yd2GP87iHAsf2K+ARvu01VtR7Bs04la0geDLbFlB/38AruUbA5qfmtXwXx6FZBQGJRogiPtEqtfk/fnQfaYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../static/js/books_movies.js"></script>
+{% endblock %}
+
+{% block title %}
+Books
+{% endblock %}
+
+{% block main %}
+<header class="header books-header">
+    <div class="header-box">
+        <h1 class="page-title">Books</h1>
+        <p>The first Harry Potter book, Harry Potter and the Philosopher’s Stone, was published by Bloomsbury in 1997 to immediate popular and critical acclaim. Six further best-selling books, three companion books, a playscript and two screenplays have since followed. The Harry Potter books have been translated into over 80 languages, won multiple awards, and sold more than 500 million copies worldwide, becoming the best-selling book series in history...</p>
+    </div>
+</header>
+
+<section class="first">
+    <h2 class="section-title">Harry Potter</h2>
+    <p>Harry Potter is a series of seven fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry. The main story arc concerns Harry's conflict with Lord Voldemort, a dark wizard who intends to become immortal, overthrow the wizard governing body known as the Ministry of Magic and subjugate all wizards and Muggles (non-magical people).</p>
+
+    <div class="content">
+        {% for i in range(hp_book_names|length) %}
+        <div class="item">
+            <img src="static/img/harry_potter_book{{i+1}}.jpg" alt="">
+            <h3>{{ hp_book_names[i] }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h2 class="section-title">Fantastic Beasts</h2>
+    <p>The stories follow Newt Scamander, a wizard and magizoologist, as he travels the world collecting and studying these extraordinary beings. Along the way, Newt encounters various adventures and dangers, all while uncovering dark secrets and battling dark forces that threaten the magical world. Through his compassion and knowledge, Newt strives to protect and preserve these fantastic creatures, promoting understanding and harmony between wizards and the animal kingdom.</p>
+
+    <div class="content one-row">
+        {% for i in range(fb_book_names|length) %}
+        <div class="item">
+            <img src="static/img/FantasticBeasts{{i+1}}.webp" alt="">
+            <h3>{{ fb_book_names[i] }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

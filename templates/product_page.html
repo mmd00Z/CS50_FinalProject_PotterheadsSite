@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+
+{% block link %}
+<script src="https://kit.fontawesome.com/405b4073fe.js" crossorigin="anonymous"></script>
+<link href="{{url_for('static', filename='css/product_page.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+<script src="{{url_for('static', filename='js/product_page.js')}}"></script>
+{% endblock %}
+
+{% block title %}
+{{product_data['name']}}
+{% endblock %}
+
+{% block main %}
+<div class="product-overview">
+    <div class="imgs-container">
+        <div class="bigger-img-container">
+            {% for i in range(product_data['images']|length) %}
+            <img src="{{url_for('static', filename='imgs_products/'+product_data['images'][i]+'.png')}}" alt=""
+                class="bigger-img {{'active' if i == 0 else 'passive'}}">
+            {% endfor %}
+            <button id="prev"><i class="bi bi-chevron-left"></i></button>
+            <button id="next"><i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="imgs-slider-container">
+            {% for img_name in product_data['images'] %}
+            <div class="slider-item">
+                <img src="{{url_for('static', filename='imgs_products/'+img_name+'.png')}}" alt="" class="product-img">
+                <div class="product-img-overlay"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="product-info">
+        <h1 class="product-name">{{product_data['name']}}</h1>
+        <div style="display: flex; gap: 10px;">
+            <span>(<span id="id" class="color-fg">{{product_data['id']}}</span>)</span>
+            <!-- TODO put rating and int(rating to styles) -->
+            <span class="average-rating" title="4.2 out of 5">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </span>
+            <span class="color-fg">4.2</span>
+            <span>out of</span>
+            <span class="color-fg">100</span>
+            <span>votes</span>
+        </div>
+        <p class="overview">{{product_data['overview']}}</p>
+        {% if is_valid_json(product_data['features']) %}
+            {% set features = json.loads(product_data['features']) %}
+            {% set options = features.options %}
+            {% for option in options %}
+            <div><span class="color-fg">{{option}}:</span> <span id="selected-{{option}}-name">{{features['default'][option]}}</span></div>
+            <div class="select-option-container">
+                {% for key in options[option] %}
+                {% if option == 'color' and options[option] is mapping %}
+                <button id="{{key}}" class="select-item {{option}}{{' selected' if key == features['default'][option]}}"
+                    style="background-color: {{options[option][key]}}"></button>
+                {% else %}
+                <button id="{{key}}" class="select-item {{option}}{{' selected' if key == features['default'][option]}}">{{key}}</button>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="buy-container">
+            <div class="add2cart-container{{' disable' if product_data['stock'] == 0}}">
+                <button id="btn-add2cart"{{" disabled" if product_data['stock'] == 0}}>Add to Cart</button>
+                <div class="add-number-container">
+                    <button class="add-number-control" id="minus">-</button>
+                    <input type="number" name="count" id="count" value=1>
+                    <button class="add-number-control" id="plus">+</button>
+                </div>
+            </div>
+            <div id="stock-container" class="flex gap5{{" hide" if product_data['stock'] == 0}}">
+                <span class="color-fg">in Stock: </span>
+                <span id="stock">{{product_data['stock']}}</span>
+            </div>
+            <span id="out-of-stock" class="{{ 'hide' if product_data['stock'] != 0 else '' }}" style="color: rgb(180, 0, 0); font-size: 1.25em">Out of Stock</span>
+            <div class="price-container{{" hide" if product_data['stock'] == 0}}">
+                <span id="current-price" class="current-price">{{current_price}}<span class="dollar">$</span></span>
+                <div id="discount-price" class="discount-price{{" hide" if product_data['discount'] == ''}}">
+                    <span id="orginal-price" class="orginal-price">{{product_data['price']}}<span class="dollar">$</span></span>
+                    <span id="discount" class="discount">-{{product_data['discount']}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="share-like">
+            <button class="action" id="share"><i class="bi bi-share-fill"></i></button>
+            <button class="action" id="like"><i class="bi bi-suit-heart"></i></button>
+            <button class="action" id="notify-me"><i class="bi bi-bell"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="info-tabs">
+    <button class="info-tab" onclick="openTab(event, 'description')">
+        <i class="bi bi-card-text"></i>
+        <span class="tab-txt">
+            <span>Description</span>
+            <div class="border-bottom"></div>
+        </span>
+    </button>
+    <button class="info-tab" onclick="openTab(event, 'details')">
+        <i class="bi bi-list-check"></i>
+        <span class="tab-txt">
+            <span>Details</span>
+            <div class="border-bottom"></div>
+        </span>
+    </button>
+    <button class="info-tab" onclick="openTab(event, 'comments')">
+        <i class="bi bi-chat-dots"></i>
+        <span class="tab-txt">
+            <span>Comments</span>
+            <div class="border-bottom"></div>
+        </span>
+    </button>
+    <button class="info-tab" onclick="openTab(event, 'FAQs')">
+        <i class="bi bi-question-diamond"></i>
+        <span class="tab-txt">
+            <span>FAQs</span>
+            <div class="border-bottom"></div>
+        </span>
+    </button>
+</div>
+
+<div class="info-container" id="description">
+    {{ product_data['description'] | safe }}
+</div>
+
+<div class="info-container" id="details">
+    {% if is_valid_json(product_data['details']) %}
+    {% for key, value in json.loads(product_data['details']).items() %}
+    <div class="details-item">
+        <span class="details-key">{{key}}</span>
+        <span class="details-value">{{value | safe }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+<div class="info-container" id="comments">
+    <form class="add-comment-container" id="comment-form">
+        <div class="select-rating-container">
+            <span class="color-fg">Score</span>
+            <i class="star bi bi-star"></i>
+            <i class="star bi bi-star"></i>
+            <i class="star bi bi-star"></i>
+            <i class="star bi bi-star"></i>
+            <i class="star bi bi-star"></i>
+        </div>
+
+        <input type="text" name="title" id="title" placeholder="Title *" required>
+        <textarea name="comment" id="comment" placeholder="Your Comment *" required></textarea>
+        <div>
+            <textarea name="advantages" id="advantages" placeholder="+ Advantages"></textarea>
+            <textarea name="disadvantages" id="disadvantages" placeholder="- Disadvantages"></textarea>
+        </div>
+        <button id="btn-send-comment" type="button">Send<i class="bi bi-send"></i></button>
+    </form>
+</div>
+
+<div class="info-container" id="FAQs">
+
+</div>
+
+{% endblock %}
